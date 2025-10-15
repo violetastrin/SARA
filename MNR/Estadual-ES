@@ -1,0 +1,73 @@
+#include <Servo.h>
+
+const int flexPins[5] = {A4,A2,A3,A6,A7};      // A4 = mínimo; A2 = Anelar; A3 = Médio; A6 = Indicador; A7 = Polegar
+const int servoPins[5] = {3,5,6,10,9};        // motores: 3 = mínimo; 5 = Anelar; 6 = Médio; 10 = Indicador; 9 = Polegar
+
+Servo servos[5];
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void setup() {
+  Serial.begin(9600);
+
+  for (int i = 0; i < 5; i++) {
+    servos[i].attach(servoPins[i]);
+  }
+
+  Serial.println("Iniciando leitura dos sensores...\n");
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void loop() {
+  for (int i = 0; i < 5; i++) {
+
+    int flexValue = analogRead(flexPins[i]);
+    int angle = 0;
+
+    switch (i) {
+      case 0:    //--------------------------------------------------------- Mínimo
+        angle = map(flexValue, 700, 950, 0, 140); 
+        angle = constrain(angle, 0, 140);
+        break;
+
+      case 1:    //--------------------------------------------------------- Anelar 
+      angle = map(flexValue, 800, 990, 30, 170); // anelar
+      angle = constrain(angle, 10, 140);
+      break;
+ 
+      case 2:    //--------------------------------------------------------- Médio
+        angle = map(flexValue, 700, 990, 30, 170); // dedo do meio
+        angle = constrain(angle, 10, 140);
+        break;
+    
+      case 3:    //--------------------------------------------------------- Indicador
+        angle = map(flexValue, 700, 990, 30, 170); // indicador
+        angle = constrain(angle, 30, 180);
+        angle = 180 - angle; 
+        break;
+    
+      case 4:    //--------------------------------------------------------- Polegar
+      angle = map(flexValue, 860, 1000, 50, 180); // polegar
+      angle = constrain(angle, 50, 180);
+      angle = 180 - angle; 
+      break;
+    }
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    servos[i].write(angle);
+
+    Serial.print("Sensor A");
+    Serial.print(flexPins[i] - A0);
+    Serial.print(" | Valor lido: ");
+    Serial.print(flexValue);
+    Serial.print(" | Ângulo enviado: ");
+    Serial.print(angle);
+    Serial.print(" | Servo: ");
+    Serial.println(i + 1);
+  }
+
+  Serial.println("-");
+  delay(300);
+}
