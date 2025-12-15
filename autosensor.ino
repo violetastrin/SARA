@@ -1,6 +1,6 @@
 #include <Servo.h>
 
-const int flexPins[5] = {A7, A6, A3, A2, A1};      // Sensores de flexão
+const int flexPins[5] = {A7, A6, A3, A2, A2};      // Sensores de flexão
 const int servoPins[5] = {3, 5, 6, 10, 9};         // Pinos dos servos
 
 Servo servos[5];
@@ -61,30 +61,30 @@ void loop() {
 
       switch (i) {
         case 0:    //--------------------------------------------------------- Mínimo
-          angle = map(flexValue, 150, 900, 40, 180);
+          angle = map(flexValue, 5, 90, 40, 180);
           angle = constrain(angle, 40, 180);
           angle = 180 - angle; 
           break;
 
         case 1:    //--------------------------------------------------------- Anelar
-          angle = map(flexValue, 150, 990, 30, 180);
+          angle = map(flexValue, 5, 40, 30, 180);
           angle = constrain(angle, 30, 180);
           angle = 180 - angle; 
           break;
   
         case 2:    //--------------------------------------------------------- Médio
-          angle = map(flexValue, 150, 990, 30, 180);
+          angle = map(flexValue, 5, 90, 30, 180);
           angle = constrain(angle, 30, 180);
           angle = 180 - angle; 
           break;
       
         case 3:    //--------------------------------------------------------- Polegar
-          angle = map(flexValue, 150, 800, 0, 150);
+          angle = map(flexValue, 5, 90, 0, 150);
           angle = constrain(angle, 0, 150);
           break;
       
         case 4:    //--------------------------------------------------------- Indicador
-          angle = map(flexValue, 150, 990, 0, 130);
+          angle = map(flexValue, 5, 90, 0, 130);
           angle = constrain(angle, 0, 130);
           break;
       }
